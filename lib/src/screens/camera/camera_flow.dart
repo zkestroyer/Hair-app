@@ -109,10 +109,15 @@ class _CameraFlowState extends State<CameraFlow> {
       // run face detection
       final input = InputImage.fromFilePath(saved.path);
       final faces = await _faceService.detectFaces(input);
-      // Show result screen
+
+      // generate mask (demo) using faces
+      final maskFile = await SegmentationService().generateMask(saved, faces);
+
+      // Show result screen with mask overlay
       final consent = await Navigator.of(context).push<bool?>(
         MaterialPageRoute(
-          builder: (_) => FaceResultScreen(image: saved, faces: faces),
+          builder: (_) =>
+              FaceResultScreen(image: saved, faces: faces, mask: maskFile),
         ),
       );
       // consent handling (FaceResultScreen may return true to indicate user wants to upload)

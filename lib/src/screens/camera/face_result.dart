@@ -6,8 +6,10 @@ import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 class FaceResultScreen extends StatelessWidget {
   final File image;
   final List<Face> faces;
+  final File? mask;
 
-  const FaceResultScreen({super.key, required this.image, required this.faces});
+  const FaceResultScreen(
+      {super.key, required this.image, required this.faces, this.mask});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,14 @@ class FaceResultScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(child: Image.file(image, fit: BoxFit.cover)),
+                if (mask != null)
+                  Positioned.fill(
+                      child: Opacity(
+                          opacity: 0.6,
+                          child: Image.file(mask!, fit: BoxFit.cover))),
                 if (hasFace)
                   Positioned.fill(
-                    child: CustomPaint(painter: FacePainter(faces)),
-                  ),
+                      child: CustomPaint(painter: FacePainter(faces))),
               ],
             ),
           ),

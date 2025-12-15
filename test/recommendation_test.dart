@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hair_guidance_app/src/services/recommendation_engine.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   test(
     'recommendation engine loads rules and returns recommendations for oval face',
     () async {
