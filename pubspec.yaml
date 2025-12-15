@@ -1,0 +1,54 @@
+name: hair_guidance_app
+description: A privacy-first hair & beard guidance app (MVP scaffold)
+version: 0.1.0
+publish_to: "none"
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.4.0
+  cloud_firestore: ^4.5.0
+  firebase_storage: ^11.0.0
+
+  # Google Sign-In
+  google_sign_in: ^6.0.0
+
+  # State management
+  flutter_riverpod: ^2.3.6
+
+  # Camera & image processing
+  camera: ^0.9.8+1
+  image_picker: ^0.8.7
+  google_mlkit_face_detection: ^0.3.0
+  tflite_flutter: ^0.9.0
+  tflite_flutter_helper: ^0.3.0
+
+  # Local storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Fonts & UI
+  google_fonts: ^4.0.3
+  flutter_svg: ^2.0.6
+
+  # Misc
+  path_provider: ^2.0.13
+  shared_preferences: ^2.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/rules.json
+    - assets/models/sample_segmentation.tflite
+    - assets/images/
