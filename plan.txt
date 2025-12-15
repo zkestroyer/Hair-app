@@ -1,0 +1,404 @@
+📌 COPILOT DEVELOPMENT SPEC — HAIR GUIDANCE APP
+Project Overview
+
+Build a mobile application (Flutter) focused on hair and beard guidance for both men and women.
+The app provides personalized haircuts, hairstyles, hair health routines, and beard care guidance based on:
+
+Camera-based analysis (face shape, hair presence, beard presence)
+
+Manual user input (hair texture, thickness, issues)
+
+Rule-based logic (NOT AI-chat driven)
+
+The app must prioritize privacy, security, and explainability.
+AI/ML is allowed only where necessary (face detection, hair segmentation), not for recommendations.
+
+1️⃣ Core App Goals
+
+Help users understand their hair type, thickness, texture, and face shape
+
+Recommend:
+
+Suitable haircuts
+
+Hairstyles (with and without equipment)
+
+Hair health routines
+
+Products by hair type
+
+For men: include beard health, beard styles, and grooming routines
+
+Allow manual override if camera analysis is unclear
+
+Keep all recommendations rule-based and transparent
+
+2️⃣ Technology Constraints
+
+Framework: Flutter
+
+Platform: Android + iOS
+
+Backend: Firebase
+
+Firebase Auth
+
+Firestore
+
+Firebase Storage
+
+Vision:
+
+On-device face detection (ML Kit)
+
+On-device hair / beard segmentation (TensorFlow Lite or MediaPipe)
+
+No generative AI
+
+No medical diagnosis
+
+3️⃣ App Modules & Responsibilities
+🔐 Authentication Module
+
+Responsibilities:
+
+Email/password login
+
+Google sign-in (optional)
+
+Secure logout
+
+User session management
+
+Constraints:
+
+No biometric auth required initially
+
+Do not store passwords manually (use Firebase Auth)
+
+📷 Camera & Image Processing Module
+
+Responsibilities:
+
+Guided selfie capture
+
+Detect face using ML Kit
+
+Extract face landmarks
+
+Run hair segmentation model
+
+Run beard detection (if applicable)
+
+Rules:
+
+If confidence is low → ask user for manual input
+
+Default processing should be on-device
+
+Upload images to cloud only if user consents
+
+Outputs:
+
+Face shape estimate
+
+Hair area mask
+
+Beard presence (true/false)
+
+🧾 Manual Hair Identification Guide
+
+Responsibilities:
+
+Help users identify:
+
+Hair texture (straight, wavy, curly, coily)
+
+Hair thickness (thin, medium, thick)
+
+Hair porosity (via guided test)
+
+Use visual examples + questions
+
+Allow editing at any time
+
+This module is critical because many users don’t know their hair type.
+
+👤 Hair & Beard Profile Module
+
+Responsibilities:
+
+Store user’s hair and beard attributes
+
+Allow editing
+
+Show “how this was determined”
+
+Fields:
+
+Face shape
+
+Hair texture
+
+Hair thickness
+
+Hair porosity
+
+Scalp issues (dry, oily, dandruff, hair fall)
+
+Hair length
+
+Beard type (none, stubble, short, full)
+
+Beard issues (dryness, itchiness, patchiness)
+
+🧠 Recommendation Engine (RULE-BASED)
+
+Responsibilities:
+
+Generate recommendations using deterministic rules
+
+No AI-generated text
+
+Inputs:
+
+Face shape
+
+Hair texture
+
+Thickness
+
+Length
+
+Issues
+
+User goals (volume, low-maintenance, formal)
+
+Outputs:
+
+Haircut recommendations
+
+Hairstyle suggestions
+
+Hair routine (daily / weekly)
+
+Beard routine (if applicable)
+
+Rules must be:
+
+Stored as JSON or Firestore documents
+
+Easy to extend
+
+Explainable (why a suggestion was made)
+
+✂️ Haircut Recommendation Module
+
+Responsibilities:
+
+Suggest haircuts based on:
+
+Face shape
+
+Hair thickness
+
+Hair texture
+
+Include:
+
+Description
+
+Who it suits
+
+Maintenance level
+
+Salon vs home suitability
+
+💇 Hairstyle Tutorial Module
+
+Responsibilities:
+
+Step-by-step hairstyle guides
+
+Two variants:
+
+With equipment (dryer, straightener, curler)
+
+Without equipment
+
+Include:
+
+Steps
+
+Time estimate
+
+Difficulty level
+
+Required tools
+
+Formats:
+
+Text steps
+
+Short videos or GIFs
+
+🧴 Hair Health & Routine Module
+
+Responsibilities:
+
+Provide routines for:
+
+Hair growth
+
+Thickness improvement
+
+Scalp health
+
+Frizz control
+
+Based on user profile
+
+Weekly & monthly routines
+
+Constraints:
+
+No medical claims
+
+Include disclaimers for severe hair loss
+
+🧔 Beard Care Module (Men Only)
+
+Responsibilities:
+
+Beard type detection
+
+Beard health routines
+
+Trimming and shaping guides
+
+Product suggestions (beard oil, wash)
+
+Rules:
+
+Face shape influences beard style
+
+Beard length influences routine
+
+🛍️ Product Recommendation Module
+
+Responsibilities:
+
+Recommend product types, not force brands
+
+Filter by:
+
+Hair type
+
+Scalp condition
+
+Budget
+
+Data:
+
+Product category
+
+Ingredients
+
+Usage frequency
+
+Optional shopping links
+
+🔒 Privacy & Security Module
+
+Responsibilities:
+
+Explicit photo consent
+
+Data deletion option
+
+Export user data
+
+Secure cloud rules
+
+Rules:
+
+Images stored only with consent
+
+Encrypted storage
+
+Follow least-privilege access
+
+4️⃣ Data Models (Simplified)
+User {
+  uid: string,
+  profile: {
+    name: string,
+    email: string
+  },
+  hairProfile: {
+    faceShape: string,
+    texture: string,
+    thickness: string,
+    porosity: string,
+    issues: [string]
+  },
+  beardProfile: {
+    hasBeard: boolean,
+    beardType: string,
+    issues: [string]
+  },
+  preferences: {
+    budget: string,
+    toolsAvailable: boolean
+  }
+}
+
+5️⃣ UX Rules
+
+Always explain recommendations
+
+Always allow manual override
+
+Avoid overwhelming the user
+
+Clean, minimal UI
+
+Gender-neutral where possible
+
+6️⃣ Non-Functional Requirements
+
+Offline support for saved routines
+
+Fast camera processing
+
+Scalable rule system
+
+Easy content updates without app rebuild
+
+7️⃣ Explicit Exclusions
+
+❌ No AI chat assistant
+
+❌ No medical diagnosis
+
+❌ No forced product purchases
+
+❌ No unnecessary permissions
+
+8️⃣ Development Priority Order
+
+Auth + Profile
+
+Camera + Face Detection
+
+Manual Hair Identification
+
+Rule-based Recommendation Engine
+
+Tutorials & Routines
+
+Beard Module
+
+Product Suggestions
+
+Security & Polishing
